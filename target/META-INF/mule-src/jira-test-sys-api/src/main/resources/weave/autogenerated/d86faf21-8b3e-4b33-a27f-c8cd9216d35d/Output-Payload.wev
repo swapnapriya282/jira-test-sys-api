@@ -1,0 +1,9 @@
+%dw 2.0
+
+type auto_d86faf21_8b3e_4b33_a27f_c8cd9216d35d_Output_Payload = {
+  id: String, 
+  message: String, 
+  error: String, 
+  _?: Any
+}
+

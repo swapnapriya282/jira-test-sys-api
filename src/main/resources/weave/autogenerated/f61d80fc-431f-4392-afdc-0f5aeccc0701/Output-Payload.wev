@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_f61d80fc_431f_4392_afdc_0f5aeccc0701_Output_Payload = Array<{  simplified: Boolean,   name: String,   style: String,   id: String,   isPrivate: Boolean,   projectTypeKey: String,   key: String,   _?: Any}>
+

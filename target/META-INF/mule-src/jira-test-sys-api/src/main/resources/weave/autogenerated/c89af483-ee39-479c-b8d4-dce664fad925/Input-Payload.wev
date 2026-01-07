@@ -1,0 +1,5 @@
+%dw 2.0
+
+type auto_c89af483_ee39_479c_b8d4_dce664fad925_Input_Payload = Array<{|  id: String,   key: String,   name: String,   projectTypeKey: String,   simplified: Boolean,   style: String,   isPrivate: Boolean|} | {|  id: String,   key: String,   name: String,   projectTypeKey: String,   simplified: Boolean,   style: String,   isPrivate: Boolean|}> {"mediaType": "application/json",
+"encoding": "UTF-8"}
+

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="post-data-apiSub_Flow" doc:id="d1e888cf-5c7d-4c9e-9baf-437407b4b933" >
+		<parallel-foreach doc:name="Parallel For Each" doc:id="4058932b-b9d6-4984-8ab2-9b3d21fc2cf7" >
+			<ee:transform doc:name="initial variable" doc:id="f99132af-6f9c-4dbf-97bc-3d4c250a56a3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "fields": {
+        "assignee": {
+            "id": "712020:0b7761ad-ff43-4c69-aca9-9ddfd37a037b"
+        },
+        "summary": payload.summary,
+        "description": {
+            "content": [
+                {
+                    "content": [
+                        {
+                            "text": payload.text,
+                            "type": "text"
+                        }
+                    ],
+                    "type": "paragraph"
+                }
+            ],
+            "type": "doc",
+            "version": 1
+        },
+        "issuetype": {
+            "name": "Task"
+        },
+        "project": {
+            "key": "ST1"
+        },
+        "reporter": {
+            "id": "712020:0b7761ad-ff43-4c69-aca9-9ddfd37a037b"
+        }
+    },
+    "update": {}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			<http:request method="POST" doc:name="post req" doc:id="85c7ad7c-1086-42f3-b90c-1f27cb0ab2c2" config-ref="HTTP_Request_configuration" path="${request.postdatapath}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	Authorization : "Basic dmFyc2hhLm5hcmxhQHByb3dlc3Nzb2Z0LmNvbTpBVEFUVDN4RmZHRjBsV0lLVVJoN1NhcFVXdE1xa1p3WnpKYTZ1bG1pTEpmODlUSmszaUdkYzVJakdCNVlCN0pCTnVrRm15VWlOYTZLb3BZdXk0ZU43Q04yRV9oVEJwVmNQNHEtN21XMGtfWnBCV0MzYUpUMjNRRDNfajl0M0ZpMVoxaDZ3bWpjR05ZUnhsbWhscWhucTZfZUJzdHRlV1BmWk9XVHVkLUtvWEJsblowcVR0VmxHam89MDJGOUIyOUY="
+}]]]></http:headers>
+		</http:request>
+		</parallel-foreach>
+		<ee:transform doc:name="response transform" doc:id="e8c6a8cd-49d0-4549-812b-f87b30fe0d72" >
+			<ee:message >
+				<ee:set-payload resource="dwl/post-issue.dwl" />
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="post-data-apiSub_Flow1" doc:id="06d10af6-6a7a-46ea-82ae-474a5c0f5c68" >
+		<set-variable value="#[[]]" doc:name="Set Variable" doc:id="e4cc01fd-de48-4d69-8034-43495eadf579" variableName="jiraOutput"/>
+		<foreach doc:name="For Each" doc:id="5b28b671-e8be-44b1-b2ba-c802ac3484af" >
+			<ee:transform doc:name="Transform Message" doc:id="9da329de-ff5b-4733-b99a-b597e8656f40" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "fields": {
+        "assignee": {
+            "id": "712020:0b7761ad-ff43-4c69-aca9-9ddfd37a037b"
+        },
+        "summary": payload.summary,
+        "description": {
+            "content": [
+                {
+                    "content": [
+                        {
+                            "text": payload.text,
+                            "type": "text"
+                        }
+                    ],
+                    "type": "paragraph"
+                }
+            ],
+            "type": "doc",
+            "version": 1
+        },
+        "issuetype": {
+            "name": "Task"
+        },
+        "project": {
+            "key": "ST1"
+        },
+        "reporter": {
+            "id": "712020:0b7761ad-ff43-4c69-aca9-9ddfd37a037b"
+        }
+    },
+    "update": {}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<http:request method="POST" doc:name="Request" doc:id="f3cdbd7b-1d7c-4328-b86d-1b5647184864" config-ref="HTTP_Request_configuration" path="${request.postdatapath}">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	Authorization : "Basic dmFyc2hhLm5hcmxhQHByb3dlc3Nzb2Z0LmNvbTpBVEFUVDN4RmZHRjBsV0lLVVJoN1NhcFVXdE1xa1p3WnpKYTZ1bG1pTEpmODlUSmszaUdkYzVJakdCNVlCN0pCTnVrRm15VWlOYTZLb3BZdXk0ZU43Q04yRV9oVEJwVmNQNHEtN21XMGtfWnBCV0MzYUpUMjNRRDNfajl0M0ZpMVoxaDZ3bWpjR05ZUnhsbWhscWhucTZfZUJzdHRlV1BmWk9XVHVkLUtvWEJsblowcVR0VmxHam89MDJGOUIyOUY="
+}]]]></http:headers>
+			</http:request>
+			<ee:transform doc:name="Transform Message" doc:id="df7a8dcb-697e-4a36-b2bc-8cf50ed1b096">
+			<ee:message>
+			</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="jiraOutput" ><![CDATA[%dw 2.0
+output application/json
+---
+ vars.jiraOutput + payload]]></ee:set-variable>
+				</ee:variables>
+		</ee:transform>
+		</foreach>
+		<set-payload value="#[vars.jiraOutput]" doc:name="Set Payload" doc:id="86ed9437-69e0-44b5-af2f-7292e9b997d2" />
+	</sub-flow>
+</mule>

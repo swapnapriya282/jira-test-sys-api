@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="get-data-id-apiSub_Flow" doc:id="f61d80fc-431f-4392-afdc-0f5aeccc0701" >
+		<http:request method="GET" doc:name="get-data-id-req" doc:id="76500c5c-283d-4c49-b548-84785059bcf1" config-ref="HTTP_Request_configuration" path="${request.getdataidpath}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	Authorization : "Basic dmFyc2hhLm5hcmxhQHByb3dlc3Nzb2Z0LmNvbTpBVEFUVDN4RmZHRjBsV0lLVVJoN1NhcFVXdE1xa1p3WnpKYTZ1bG1pTEpmODlUSmszaUdkYzVJakdCNVlCN0pCTnVrRm15VWlOYTZLb3BZdXk0ZU43Q04yRV9oVEJwVmNQNHEtN21XMGtfWnBCV0MzYUpUMjNRRDNfajl0M0ZpMVoxaDZ3bWpjR05ZUnhsbWhscWhucTZfZUJzdHRlV1BmWk9XVHVkLUtvWEJsblowcVR0VmxHam89MDJGOUIyOUY="
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"id" : vars.id
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="response mapping" doc:id="9a9e5291-87a8-4541-98fe-bf570484b1f7" >
+			<ee:message >
+				<ee:set-payload resource="dwl/get-data-id.dwl" />
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

@@ -1,0 +1,13 @@
+http:
+  listener:
+    host: "0.0.0.0"
+    port: "8081"
+    path: "/api/*"
+    protocol: "https"
+request:
+  host: "prowesssoft-team.atlassian.net"
+  port: "443"
+  path: "/rest/api/3/project"
+  getdataidpath: "/rest/api/3/project/{id}"
+  postdatapath: "/rest/api/3/issue"
+  getissueidpath: "/rest/api/3/issue/{id}"

@@ -1,0 +1,12 @@
+%dw 2.0
+
+type auto_bc8ce41c_450e_4a1d_a77e_6f0ecf864716_Input_Payload = {
+  balance?: String, 
+  dob?: String, 
+  id?: String, 
+  ifsccode?: String, 
+  branch?: String, 
+  "last-transaction"?: String, 
+  _?: Any
+}
+

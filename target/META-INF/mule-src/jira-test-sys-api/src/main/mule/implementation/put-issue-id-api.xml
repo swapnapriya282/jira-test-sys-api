@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="put-issue-id-apiSub_Flow" doc:id="d86faf21-8b3e-4b33-a27f-c8cd9216d35d" >
+		<ee:transform doc:name="Transform Message" doc:id="14139da6-cd7a-4f0b-b021-1abb7864e313" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "fields":
+    {
+        "summary": payload.summary
+    }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="PUT" doc:name="Request" doc:id="206c24f5-e7d8-42f4-9f7a-c3e70c6f9908" config-ref="HTTP_Request_configuration" path="${request.getissueidpath}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	Authorization : "Basic dmFyc2hhLm5hcmxhQHByb3dlc3Nzb2Z0LmNvbTpBVEFUVDN4RmZHRjBsV0lLVVJoN1NhcFVXdE1xa1p3WnpKYTZ1bG1pTEpmODlUSmszaUdkYzVJakdCNVlCN0pCTnVrRm15VWlOYTZLb3BZdXk0ZU43Q04yRV9oVEJwVmNQNHEtN21XMGtfWnBCV0MzYUpUMjNRRDNfajl0M0ZpMVoxaDZ3bWpjR05ZUnhsbWhscWhucTZfZUJzdHRlV1BmWk9XVHVkLUtvWEJsblowcVR0VmxHam89MDJGOUIyOUY="
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"id" : vars.id
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="a0383516-bb11-45a0-a166-5816a8a73307" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"id": vars.id,
+	"message": "data updated succesfully",
+    "error": ""
+    
+    }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
