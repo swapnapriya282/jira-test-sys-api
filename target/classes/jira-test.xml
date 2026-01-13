@@ -16,7 +16,7 @@
         </http:listener>
         <apikit:router config-ref="jira-test-config" />
         <error-handler>
-            <on-error-propagate type="APIKIT:BAD_REQUEST, APIKIT:METHOD_NOT_ALLOWED, APIKIT:NOT_ACCEPTABLE, APIKIT:NOT_FOUND, APIKIT:UNSUPPORTED_MEDIA_TYPE" enableNotifications="true" logException="true">
+            <on-error-propagate type="APIKIT:BAD_REQUEST, APIKIT:NOT_IMPLEMENTED, APIKIT:METHOD_NOT_ALLOWED, APIKIT:NOT_ACCEPTABLE, APIKIT:NOT_FOUND, APIKIT:UNSUPPORTED_MEDIA_TYPE" enableNotifications="true" logException="true">
                 <ee:transform doc:name="Transform Message">
                     <ee:message>
                         <ee:set-payload><![CDATA[%dw 2.0
@@ -30,6 +30,7 @@ else if (error.errorType.identifier == 'METHOD_NOT_ALLOWED') 405
 else if (error.errorType.identifier == 'NOT_ACCEPTABLE') 500
 else if (error.errorType.identifier == 'NOT_FOUND') 404
 else if (error.errorType.identifier == 'UNSUPPORTED_MEDIA_TYPE') 415
+else if (error.errorType.identifier == 'NOT_IMPLEMENTED') 501
 else 503
 
 
