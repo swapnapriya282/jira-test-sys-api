@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 <!-- 	<api-gateway:autodiscovery apiId="20647966" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="4999d515-e7b0-489f-b53d-4e443148b2a8" flowRef="jira-test-main" /> -->
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="bfefb39d-2213-44e4-8bd4-7a821616effd" >
 		<http:request-connection host="${request.host}" port="${request.port}" protocol="HTTPS"/>
 	</http:request-config>
-	<configuration-properties doc:name="Configuration properties" doc:id="c6071e72-b1b3-412a-b33e-c47b5ea03a54" file="config/jira-dev-config.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="c6071e72-b1b3-412a-b33e-c47b5ea03a54" file="config/jira-${env}-config.yaml" />
 </mule>

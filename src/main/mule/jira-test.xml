@@ -15,31 +15,7 @@
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="jira-test-config" />
-        <error-handler>
-            <on-error-propagate type="APIKIT:BAD_REQUEST, APIKIT:NOT_IMPLEMENTED, APIKIT:METHOD_NOT_ALLOWED, APIKIT:NOT_ACCEPTABLE, APIKIT:NOT_FOUND, APIKIT:UNSUPPORTED_MEDIA_TYPE" enableNotifications="true" logException="true">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: error.errorType.identifier}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus"><![CDATA[if(error.errorType.identifier == 'BAD_REQUEST') 400 
-else if (error.errorType.identifier == 'METHOD_NOT_ALLOWED') 405
-else if (error.errorType.identifier == 'NOT_ACCEPTABLE') 500
-else if (error.errorType.identifier == 'NOT_FOUND') 404
-else if (error.errorType.identifier == 'UNSUPPORTED_MEDIA_TYPE') 415
-else if (error.errorType.identifier == 'NOT_IMPLEMENTED') 501
-else 503
-
-
-
-]]></ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-        </error-handler>
+		<error-handler ref="global-error-handling" />
     </flow>
     <flow name="get:\data:jira-test-config">
         <ee:transform doc:name="initial variable">

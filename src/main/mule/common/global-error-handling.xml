@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:project-bank="http://www.mulesoft.org/schema/mule/project-bank" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/project-bank http://www.mulesoft.org/schema/mule/project-bank/current/mule-project-bank.xsd">
+	<error-handler name="global-error-handling">
+            <on-error-propagate type="APIKIT:BAD_REQUEST, APIKIT:NOT_IMPLEMENTED, APIKIT:METHOD_NOT_ALLOWED, APIKIT:NOT_ACCEPTABLE, APIKIT:NOT_FOUND, APIKIT:UNSUPPORTED_MEDIA_TYPE" enableNotifications="true" logException="true">
+                <ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: error.errorType.identifier}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[if(error.errorType.identifier == 'BAD_REQUEST') 400 
+else if (error.errorType.identifier == 'METHOD_NOT_ALLOWED') 405
+else if (error.errorType.identifier == 'NOT_ACCEPTABLE') 500
+else if (error.errorType.identifier == 'NOT_FOUND') 404
+else if (error.errorType.identifier == 'UNSUPPORTED_MEDIA_TYPE') 415
+else if (error.errorType.identifier == 'NOT_IMPLEMENTED') 501
+else 503
+
+
+
+]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="673b2f3a-e649-4012-a0e6-b46a37765880" type="ANY">
+				<logger level="INFO" doc:name="Logger" doc:id="5b23dcde-cd6b-48ac-97d0-781b5fb0414b" message='#["Error Handled"]'/>
+				<ee:transform doc:name="Transform Message" doc:id="7adf9b43-afc9-4ba3-bfed-9db297a3b5ef" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: error.errorType.identifier}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[if(error.errorType.identifier == 'BAD_REQUEST') 400 
+else if (error.errorType.identifier == 'METHOD_NOT_ALLOWED') 405
+else if (error.errorType.identifier == 'NOT_ACCEPTABLE') 500
+else if (error.errorType.identifier == 'NOT_FOUND') 404
+else if (error.errorType.identifier == 'UNSUPPORTED_MEDIA_TYPE') 415
+else if (error.errorType.identifier == 'NOT_IMPLEMENTED') 501
+else 503
+
+
+
+]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+        </error-handler>
+    
+</mule>
